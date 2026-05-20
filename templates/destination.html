@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if destination %}
+
+<section class="destination-detail-hero">
+    <div class="container">
+        <div class="destination-detail-grid">
+
+            <div class="destination-detail-content">
+                <p class="detail-label">Vietnam Travel Guide</p>
+
+                <h1>{{ destination.name }}</h1>
+
+                <p class="detail-description">
+                    {{ destination.description }}
+                </p>
+
+                <div class="detail-info-box">
+                    <div>
+                        <span class="info-title">Recommended Stay</span>
+                        <span class="info-value">{{ destination.duration }}</span>
+                    </div>
+
+                    <div>
+                        <span class="info-title">Country</span>
+                        <span class="info-value">Vietnam</span>
+                    </div>
+                </div>
+
+                <div class="detail-buttons">
+                    <a href="/" class="btn-primary">Back to Home</a>
+                    <a href="/#destinations" class="btn-secondary">View More Places</a>
+                </div>
+            </div>
+
+            <div class="destination-detail-image">
+                <img src="{{ destination.image }}" alt="{{ destination.name }}">
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="detail-extra-section">
+    <div class="container">
+        <div class="detail-extra-grid">
+
+            <div class="detail-extra-card">
+                <h3>Why visit?</h3>
+                <p>
+                    This destination is a great choice for travellers who want to experience
+                    the beauty, culture, and local lifestyle of Vietnam.
+                </p>
+            </div>
+
+            <div class="detail-extra-card">
+                <h3>Best for</h3>
+                <p>
+                    Sightseeing, photography, food discovery, short holidays, and first-time
+                    visitors to Vietnam.
+                </p>
+            </div>
+
+            <div class="detail-extra-card">
+                <h3>Travel tip</h3>
+                <p>
+                    Plan your trip early, check the local weather, and leave some free time
+                    to explore nearby attractions.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% else %}
+
+<section class="destination-not-found">
+    <div class="container">
+        <h1>Destination not found</h1>
+        <p>Sorry, this destination does not exist.</p>
+        <a href="/" class="btn-primary">Back to Home</a>
+    </div>
+</section>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,7 @@
+Flask
+gunicorn
+pytest
+flake8
+bandit
+pip-audit
+prometheus-flask-exporter

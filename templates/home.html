@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section id="home" class="hero">
+    <div class="hero-content">
+        <h1>Discover the Beauty of Vietnam</h1>
+
+        <p>
+            From stunning beaches to ancient temples, vibrant cities to peaceful countryside -
+            explore the best destinations Vietnam has to offer.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#destinations" class="btn-primary">Explore Now</a>
+            <a href="#about" class="btn-secondary">Learn More</a>
+        </div>
+    </div>
+</section>
+
+<!-- Destinations Section -->
+<section id="destinations" class="destinations">
+    <div class="container">
+
+        <div class="section-header">
+            <h2>Popular Destinations</h2>
+            <p>
+                Explore the most captivating places in Vietnam, each offering unique experiences
+                and unforgettable memories.
+            </p>
+            <form method="GET" action="/" class="search-filter-form">
+            <input 
+            type="text" 
+            name="search" 
+            placeholder="Search destinations..." 
+            value="{{ search }}"
+            class="search-input" >
+
+            <select name="duration" class="filter-select">
+            <option value="">All Durations</option>
+
+        {% for duration in durations %}
+        <option 
+            value="{{ duration }}"
+            {% if duration == selected_duration %}selected{% endif %}>
+            {{ duration }}
+         </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="btn-primary">Search</button>
+    <a href="/" class="clear-link">Clear</a>
+</form>
+            
+        </div>
+
+        <div class="destination-grid">
+            {% for destination in destinations %}
+            <div class="destination-card">
+
+                <div class="card-image">
+                    <img 
+                        src="{{ destination.image }}" 
+                        alt="{{ destination.name }}"
+                    >
+                </div>
+
+                <div class="card-content">
+                    <h3>{{ destination.name }}</h3>
+
+                    <p>{{ destination.description }}</p>
+
+                    <div class="card-footer">
+                        <span class="duration">{{ destination.duration }}</span>
+
+                        <a href="/destination/{{ destination.id }}" class="card-link">
+                            Learn More →
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+
+            {% if destinations %}
+            <div class="destination-grid">
+            {% for destination in destinations %}
+            {% endfor %}
+            </div>
+            {% else %}
+            <div class="no-results">
+            <h3>No destinations found</h3>
+            <p>Try another search or clear the filter.</p>
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="about">
+    <div class="container">
+        <div class="about-grid">
+
+            <div class="about-content">
+                <h2>Why Visit Vietnam?</h2>
+
+                <p class="intro-text">
+                    Vietnam is a country of stunning natural beauty and rich cultural heritage.
+                    From the misty mountains of the north to the vibrant deltas of the south,
+                    every corner offers something special.
+                </p>
+
+                <div class="features">
+
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div>
+                            <h4>Rich Culture & History</h4>
+                            <p>
+                                Discover ancient temples, colonial architecture, and UNESCO World Heritage Sites.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div>
+                            <h4>Amazing Cuisine</h4>
+                            <p>
+                                Experience world-famous Vietnamese food from street vendors to fine dining.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon"></div>
+                        <div>
+                            <h4>Natural Beauty</h4>
+                            <p>
+                                From pristine beaches to lush rice terraces and dramatic limestone formations.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="about-image">
+                <img 
+                    src="https://images.unsplash.com/photo-1558334466-afce6bf36c69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwzfHxob2klMjBhbiUyMHZpZXRuYW18ZW58MXx8fHwxNzc5MjU0ODI5fDA&ixlib=rb-4.1.0&q=80&w=1080"
+                    alt="Vietnam landscape"
+                >
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer id="contact" class="footer">
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div class="footer-column">
+                <div class="footer-logo">
+                    <span>📍</span>
+                    <span>Where to Go in Vietnam</span>
+                </div>
+
+                <p>
+                    Your ultimate guide to exploring the best destinations in Vietnam.
+                </p>
+            </div>
+
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#destinations">Destinations</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Contact</h4>
+
+                <p>Email: info@wheretogo.vn</p>
+                <p>Phone: +84 123 456 789</p>
+            </div>
+
+            <div class="footer-column">
+                <h4>Follow Us</h4>
+
+                <div class="social-links">
+                    <a href="#" class="social-icon">FB</a>
+                    <a href="#" class="social-icon">IG</a>
+                    <a href="#" class="social-icon">TW</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Where to Go in Vietnam. All rights reserved.</p>
+        </div>
+
+    </div>
+</footer>
+
+{% endblock %}
