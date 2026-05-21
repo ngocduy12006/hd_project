@@ -35,20 +35,17 @@ pipeline {
         }
 
         stage('Deploy') {
-        steps {
+    steps {
         sh '''
-            docker stop vietnam-container || true
-            docker rm vietnam-container || true
+            docker compose -p vietnam-staging down || true
+            docker compose -p vietnam-staging up -d
 
-            docker run -d \
-            --name vietnam-container \
-            -p 5001:5000 \
-            -e SECRET_KEY=mysecretkey \
-            -e ADMIN_USERNAME=admin \
-            -e ADMIN_PASSWORD=admin123 \
-            vietnam:${BUILD_NUMBER}
+            sleep 5
+            curl -f http://127.0.0.1:5001/
         '''
-        }
-        }
+    }
+}
+
+        
     }
 }

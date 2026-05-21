@@ -1,0 +1,12 @@
+services:
+  web:
+    image: vietnamapp:${BUILD_NUMBER}
+    container_name: vietnam-container
+    ports:
+      - "127.0.0.1:5001:5000"
+    environment:
+      APP_HOST: "0.0.0.0"
+      SECRET_KEY: "mysecretkey"
+      ADMIN_USERNAME: "admin"
+      ADMIN_PASSWORD: "admin123"
+    restart: unless-stopped
