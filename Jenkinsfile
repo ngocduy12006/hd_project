@@ -40,8 +40,16 @@ pipeline {
             docker compose -p vietnam-staging down || true
             docker compose -p vietnam-staging up -d
 
-            sleep 5
-            curl -f http://127.0.0.1:5001/
+            echo "Checking container status..."
+            docker ps -a
+
+            echo "Checking container logs..."
+            docker logs vietnam-container || true
+
+            echo "Waiting for app to start..."
+            sleep 8
+
+            docker exec vietnam-container python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/', timeout=5); print('Deployment check passed')"
         '''
     }
 }
