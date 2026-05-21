@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import os
 
 app = Flask(__name__)
 
@@ -33,6 +34,7 @@ destinations = [
     }
 ]
 
+
 @app.route("/")
 def home():
     search = request.args.get("search", "").lower()
@@ -63,16 +65,16 @@ def home():
         selected_duration=duration
     )
 
+
 @app.route("/destination/<destination_id>")
 def destination_detail(destination_id):
     selected_destination = None
-
     for destination in destinations:
         if destination["id"] == destination_id:
             selected_destination = destination
             break
-
     return render_template("destination.html", destination=selected_destination)
 
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=os.getenv("FLASK_DEBUG") == "1")

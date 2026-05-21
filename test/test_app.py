@@ -2,7 +2,6 @@ import pytest
 from vietnam import app
 
 
-
 def test_home_page_loads_successfully():
     client = app.test_client()
     client = app.test_client()
@@ -81,14 +80,6 @@ def test_hoi_an_destination_detail_page():
     assert "Hoi An" in page_content
     assert "2-4 Days" in page_content
 
-def test_hoi_an_destination_detail_page():
-    client = app.test_client()
-    response = client.get("/destination/hoi-an")
-    page_content = response.data.decode()
-
-    assert response.status_code == 200
-    assert "Hoi An" in page_content
-    assert "2-4 Days" in page_content
 
 def test_search_is_case_insensitive():
     client = app.test_client()
