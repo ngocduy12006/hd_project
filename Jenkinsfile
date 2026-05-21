@@ -12,7 +12,11 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing Vietnam App...'
-                sh 'docker run --rm vietnamapp:${BUILD_NUMBER} python -m pytest'
+                sh 'docker run --rm \
+             -e SECRET_KEY=mysecretkey \
+             -e ADMIN_USERNAME=admin \
+             -e ADMIN_PASSWORD=admin123 \
+             vietnamapp:${BUILD_NUMBER} python -m pytest'
             }
         }
 
@@ -20,6 +24,13 @@ pipeline {
             steps {
                 echo 'Evaluating Code Quality...'
                 sh 'docker run --rm vietnamapp:${BUILD_NUMBER} python -m flake8 vietnam.py test'
+            }
+        }
+
+        stage('Security'){
+            steps {
+                echo 'Testing Security...'
+                sh 'docker run --rm vietnam:${BUILD_NUMBER} python -m bandit -r . -x ./test,./tests,./venv,./.venv'
             }
         }
     }

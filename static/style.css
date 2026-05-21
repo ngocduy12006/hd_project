@@ -629,3 +629,12 @@ body {
     border-radius: 16px;
     color: #6b7280;
 }
+
+.login-button {
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    background-color: #222;
+    color: white;
+    font-weight: bold;
+}

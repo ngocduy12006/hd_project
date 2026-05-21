@@ -160,3 +160,64 @@ def test_invalid_destination_page_does_not_crash():
     response = client.get("/destination/unknown-place")
 
     assert response.status_code == 200
+
+
+def test_login_page_loads_successfully():
+    client = app.test_client()
+    response = client.get("/login")
+    page_content = response.data.decode()
+
+    assert response.status_code == 200
+    assert "Admin Login" in page_content
+
+
+def test_admin_page_redirects_when_not_logged_in():
+    client = app.test_client()
+    response = client.get("/admin")
+
+    assert response.status_code == 302
+    assert "/login" in response.headers["Location"]
+
+
+def test_login_fails_with_wrong_credentials():
+    client = app.test_client()
+    response = client.post("/login", data={
+        "username": "wrong",
+        "password": "wrong"
+    })
+    page_content = response.data.decode()
+
+    assert response.status_code == 200
+    assert "Invalid username or password" in page_content
+
+
+def test_login_success_with_correct_credentials(monkeypatch):
+    monkeypatch.setenv("ADMIN_USERNAME", "admin")
+    monkeypatch.setenv("ADMIN_PASSWORD", "admin123")
+
+    client = app.test_client()
+    response = client.post("/login", data={
+        "username": "admin",
+        "password": "admin123"
+    }, follow_redirects=True)
+    page_content = response.data.decode()
+
+    assert response.status_code == 200
+    assert "Admin Dashboard" in page_content
+
+
+def test_logout_redirects_to_home(monkeypatch):
+    monkeypatch.setenv("ADMIN_USERNAME", "admin")
+    monkeypatch.setenv("ADMIN_PASSWORD", "admin123")
+
+    client = app.test_client()
+
+    client.post("/login", data={
+        "username": "admin",
+        "password": "admin123"
+    })
+
+    response = client.get("/logout")
+
+    assert response.status_code == 302
+    assert "/" in response.headers["Location"]

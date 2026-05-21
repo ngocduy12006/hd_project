@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+
+    <p>You are logged in successfully.</p>
+
+    <h2>Destination List</h2>
+
+    <ul>
+        {% for destination in destinations %}
+            <li>
+                <strong>{{ destination.name }}</strong>
+                - {{ destination.duration }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <br>
+    <a href="/logout">Logout</a>
+    <br><br>
+    <a href="/">Back to Home</a>
+</body>
+</html>
