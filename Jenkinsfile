@@ -35,18 +35,20 @@ pipeline {
         }
 
         stage('Deploy') {
-            steps {
-                echo 'Deploying your app to the testing environment'
-                sh 'docker stop vietnam-container || true
-                   docker rm vietnam-container || true
-                   docker run -d \
-                    --name vietnam-container \
-                    -p 5001:5000 \
-                    -e SECRET_KEY=mysecretkey \
-                    -e ADMIN_USERNAME=admin \
-                    -e ADMIN_PASSWORD=admin123 \
-                    vietnamapp:${BUILD_NUMBER}'
-            }
+        steps {
+        sh '''
+            docker stop vietnam-container || true
+            docker rm vietnam-container || true
+
+            docker run -d \
+            --name vietnam-container \
+            -p 5001:5000 \
+            -e SECRET_KEY=mysecretkey \
+            -e ADMIN_USERNAME=admin \
+            -e ADMIN_PASSWORD=admin123 \
+            vietnam:${BUILD_NUMBER}
+        '''
+        }
         }
     }
 }
