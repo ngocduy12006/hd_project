@@ -8,5 +8,12 @@ pipeline {
                 sh 'docker build -t vietnamapp:${BUILD_NUMBER} .'
             }
         }
+
+        stage('Test') {
+            steps {
+                echo 'Testing Vietnam App...'
+                sh 'docker run -rm vietnamapp:${BUILD_NUMBER} python -m pytest'
+            }
+        }
     }
 }
