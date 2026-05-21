@@ -12,7 +12,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing Vietnam App...'
-                sh 'docker run -rm vietnamapp:${BUILD_NUMBER} python -m pytest'
+                sh 'docker run --rm vietnamapp:${BUILD_NUMBER} python -m pytest'
             }
         }
     }
