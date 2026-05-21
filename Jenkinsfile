@@ -35,8 +35,8 @@ pipeline {
         }
 
         stage('Deploy') {
-    steps {
-        sh '''
+        steps {
+         sh '''
             docker compose -p vietnam-staging down || true
             docker compose -p vietnam-staging up -d
 
@@ -47,13 +47,31 @@ pipeline {
             docker logs vietnam-container || true
 
             echo "Waiting for app to start..."
-            sleep 8
+            sleep 2
 
             docker exec vietnam-container python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/', timeout=5); print('Deployment check passed')"
-        '''
+         '''
+        }
+    }
+    stage('Release') {
+    steps {
+        withCredentials([string(credentialsId: 'github-api-token', variable: 'GITHUB_TOKEN')]) {
+            sh '''
+                RELEASE_VERSION="v1.0.${BUILD_NUMBER}"
+
+                git config user.name "Jenkins CI"
+                git config user.email "jenkins@example.com"
+
+                git tag -a ${RELEASE_VERSION} -m "Release ${RELEASE_VERSION}"
+
+                git push https://x-access-token:${GITHUB_TOKEN}@github.com/ngocduy12006/hd_project.git ${RELEASE_VERSION}
+
+                echo "Created release tag: ${RELEASE_VERSION}"
+            '''
+        }
     }
 }
-
-        
+   
     }
+
 }
