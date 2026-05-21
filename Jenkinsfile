@@ -30,7 +30,7 @@ pipeline {
         stage('Security'){
             steps {
                 echo 'Testing Security...'
-                sh 'docker run --rm vietnam:${BUILD_NUMBER} python -m bandit -r . -x ./test,./tests,./venv,./.venv'
+                sh 'docker run --rm vietnamapp:${BUILD_NUMBER} python -m bandit -r . -x ./test,./tests,./venv,./.venv'
             }
         }
     }
