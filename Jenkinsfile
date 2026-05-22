@@ -72,22 +72,24 @@ pipeline {
 
                 git push https://x-access-token:${GITHUB_TOKEN}@github.com/ngocduy12006/hd_project.git "${RELEASE_VERSION}"
 
-                echo "Created release tag: ${RELEASE_VERSION}"
-
                 echo "Creating GitHub Release: ${RELEASE_VERSION}"
+
+                cat > release_payload.json <<EOF
+{
+  "tag_name": "${RELEASE_VERSION}",
+  "name": "Vietnam Tour Guide Website Release ${RELEASE_VERSION}",
+  "body": "## SUMMARY \\nThis release was automatically created by the Jenkins CI/CD pipeline after the application was successfully deployed.\\n\\n## Release Details\\n- Version: ${RELEASE_VERSION}\\n- Jenkins Build: #${BUILD_NUMBER}\\n- Commit: ${COMMIT_HASH}\\n- Release Type: Automated GitHub Release\\n- Deployment Status: Successful\\n\\n## Pipeline Verification\\nBefore this release was created, the pipeline completed the required build, test, code quality analysis, security, and deployment stages successfully. This ensures that the released version is based on a verified and deployable application build.\\n\\n## Traceability\\nThis release is linked to a specific Jenkins build and Git commit, making the release process repeatable, automated, and traceable.",
+  "draft": false,
+  "prerelease": false
+}
+EOF
 
                 curl -sS -L -X POST \
                   -H "Accept: application/vnd.github+json" \
                   -H "Authorization: Bearer ${GITHUB_TOKEN}" \
                   -H "X-GitHub-Api-Version: 2022-11-28" \
                   https://api.github.com/repos/ngocduy12006/hd_project/releases \
-                  -d "{
-                    \\"tag_name\\": \\"${RELEASE_VERSION}\\",
-                    \\"name\\": \\"Release ${RELEASE_VERSION}\\",
-                    \\"body\\": \\"Automated release created by Jenkins after successful deployment. Build number: ${BUILD_NUMBER}. Commit: ${COMMIT_HASH}.\\",
-                    \\"draft\\": false,
-                    \\"prerelease\\": false
-                  }"
+                  -d @release_payload.json
 
                 echo "GitHub Release created successfully: ${RELEASE_VERSION}"
             '''
